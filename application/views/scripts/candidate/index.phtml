@@ -1,0 +1,112 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <?php echo $this->escape($this->title); ?>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="<?php echo $this->baseUrl() . "/"; ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active"><?php echo $this->escape($this->title); ?></li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    
+    <?php if (count($this->messages)){ ?>
+    <!-- flashMesenger -->
+    <?php foreach ($this->messages as $message) { ?>
+      <div class="callout callout-info">
+         <h4><?php echo $this->escape($message); ?></h4>
+      </div>
+    <?php } }; ?>
+    
+    
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <div class="box-header">
+            <?php if ($this->user && $this->user->isAdmin()) { ?>
+              <a href="<?php echo $this->url(array('controller' => 'candidate', 'action' => 'create')); ?>"><button type="submit" class="btn btn-success">Add new Candidate</button></a>
+            <?php } ?>
+          </div><!-- /.box-header -->
+
+          
+          <!-- Candidate list HEADER-->
+          <?php if (count($this->candidates) > 0) {?>
+           <div class="box-body">
+              <table id="candidates-list" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <!--<th>ID</th>-->
+                    <th>Surname</th>
+                    <th>Firstname</th>
+                    <th>Technology</th>
+                    <th>Last result</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody> 
+           <!-- Candidate list ITEM -->   
+           <?php foreach ($this->candidates as $candidate) {  ?> 
+              <tr>
+                <!--<td><?php echo $candidate->getid_kandidat(); ?></td>-->
+                <td><?php echo $candidate->getprijmeni(); ?></td>
+                <td><?php echo $candidate->getjmeno(); ?></td>
+                <td><?php $technologie = $candidate->getTechnologies();
+                      $tech = array();
+                      foreach ($technologie as $t) {
+                        $tech[] = $t->getnazev();
+                      }
+                      echo implode (', ', $tech)?></td>
+                <td><?php if ($candidate->getLastResult() > 0){
+                  echo $candidate->getLastResult() . ' %';
+                } else {
+                  echo '-- %';
+                } ?></td>
+                <td><?php echo $candidate->getStatus()->getnazev(); ?></td>
+                <td>
+                  <a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $candidate->getid_kandidat(), 'action' => 'detail')); ?>"><button type="button" class="btn btn-success btn-sm">Detail</button></a>  
+                </td>
+              </tr>
+              <?php }  //END foreach $candidate?> 
+              </tbody>
+            </table>
+            </div><!-- /.box-body --> 
+          <?php 
+          // end of table
+ 
+// haluz konstrukce, ktera vypise tenhle skript na konec souboru        
+$script = <<<'JS'
+$(document).ready(function() {
+$('#candidates-list').DataTable( {
+responsive: true,
+columnDefs: [
+{ responsivePriority: 1, targets: 0 },
+{ responsivePriority: 2, targets: 2 },
+{ responsivePriority: 1, targets: -1 },
+{ bSortable: false, aTargets: -1 }
+] });
+} );
+JS;
+$this->InlineScript()->appendScript($script, $type = 'text/javascript');
+    
+          } else { ?>
+          
+          <!-- Candidate list EMPTY --> 
+          <div class="box-body">
+            <div class="callout callout-info">
+                <h4>There are no candidates to show</h4>
+                <p>Enter new candidate to hide this annoying message :)</p>
+            </div>
+          </div>
+        <?php } //END candidate list EMPTY ?>
+          
+        </div><!-- /.box -->
+      </div>
+    </div><!-- /.row (main row) -->    
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->

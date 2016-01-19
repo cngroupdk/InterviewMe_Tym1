@@ -1,0 +1,91 @@
+<header class="main-header">
+	<!-- Logo -->
+	<a href="<?php echo $this->baseUrl() . "/"; ?>" class="logo">
+	  <!-- mini logo for sidebar mini 50x50 pixels -->
+	  <span class="logo-mini"><img class="own-logo" src="<?php echo $this->baseUrl() . "/dist/img/logo-mini.png"; ?>" alt="minilogo" /></span>
+	  <!-- logo for regular state and mobile devices -->
+	  <span class="logo-lg"><img class="own-logo" src="<?php echo $this->baseUrl() . "/dist/img/logo.png"; ?>" alt="logo" /></span>
+	</a>
+	<!-- Header Navbar: style can be found in header.less -->
+	<nav class="navbar navbar-static-top" role="navigation">
+	  <!-- Sidebar toggle button-->
+	  <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+	    <span class="sr-only">Toggle navigation</span>
+	  </a>
+	  <div class="navbar-custom-menu">
+	    <ul class="nav navbar-nav">
+	      
+	      <!-- User Account: style can be found in dropdown.less -->
+	      <li class="dropdown user user-menu">
+	        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+	     		<?php if ($this->avatarBase64 !== NULL) { ?>
+	            <?php echo '<img class="user-image" src="data:image/gif;base64,' . $this->avatarBase64 . '"  />'?>
+	            <?php } else { ?>
+	              <img class="user-image" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="User profile picture">
+	            <?php } ?>
+
+                  <span class="hidden-xs">
+                      
+                      <?php      
+                            if($this->user != null){
+                               echo $this->user->getFullName();
+                            }
+                        ?>
+                      
+                  </span>
+	        </a>
+	        <ul class="dropdown-menu">
+	          <!-- User image -->
+	          <li class="user-header">
+	          	<?php if ($this->avatarBase64 !== NULL) { ?>
+	            <?php echo '<img class="profile-user-img img-responsive img-circle" src="data:image/gif;base64,' . $this->avatarBase64 . '"  />'?>
+	            <?php } else { ?>
+	              <img class="profile-user-img img-responsive img-circle" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="User profile picture">
+	            <?php } ?>
+	            
+	            <p>
+	             
+                        <?php      
+                            if($this->user != null){
+                                echo $this->user->getFullName();
+                            }
+                        ?>
+                        
+	              <small>
+                          
+                          <?php      
+                            if($this->user != null){
+                                echo $this->user->email;
+                            }
+                        ?>
+               <br/>
+                        <?php      
+                            if($this->user != null){
+                                if ($this->user->admin){
+                                  echo "Administrator";
+                                } else {
+                                  echo "Reviewer";
+                                };
+                            }
+                        ?>
+                      
+                      
+                      </small>
+	            </p>
+	          </li>
+	          <!-- Menu Footer-->
+	          <li class="user-footer">
+	            <div class="pull-left">
+	              <a href="<?php echo $this->url(array('controller' => 'user', 'action' => 'detail', 'id' => $this->user->getid_uzivatel()), 'default', true); ?>" class="btn btn-default btn-flat">Profile</a>
+	            </div>
+	            <div class="pull-right">
+	              <a href="<?php echo $this->url(array('controller' => 'admin', 'action' => 'logout'), 'default', true); ?>" class="btn btn-default btn-flat">Sign out</a>
+	            </div>
+	          </li>
+	        </ul>
+	      </li>
+	    </ul>
+	  </div>
+	</nav>
+</header>

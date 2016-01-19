@@ -1,0 +1,58 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <?php echo $this->escape($this->title); ?>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="candidate"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="test">Tests</a></li>
+      <li class="active"><?php echo $this->escape($this->title); ?></li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+
+    <?php if (count($this->messages)){ ?>
+    <!-- flashMesenger -->
+    <?php foreach ($this->messages as $message) { ?>
+      <div class="callout callout-info">
+         <h4><?php echo $this->escape($message); ?></h4>
+      </div>
+    <?php } }; ?>
+
+    <div class="row">
+      <div class="col-md-5">
+        <div class="box box-primary min-420">
+          <div class="box-header with-border">
+            <h3 class="box-title">General Information</h3>
+          </div><!-- /.box-header -->
+          <div class="box-body box-profile">
+            <div id="test-form">
+             <?php echo $this->testForm ?>
+           </div>
+           <?php if ($this->questionForms !== NULL && !empty($this->questionForms)) { ?>
+           <a href="<?php echo $this->url(array('controller' => 'test', 'action' => 'detail', 'id' => $this->testId), 'default', true); ?>"><button type="submit" class="btn btn-success">Done Editing</button></a>
+           <?php } ?>
+         </div>
+       </div>
+
+     </div>
+
+     <div class="col-md-7">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Questions</h3>
+          </div><!-- /.box-header -->
+        <div class="box-header with-border">
+          <?php if ($this->questionForms !== NULL && !empty($this->questionForms)) foreach ($this->questionForms as $form) { 
+            echo $form;
+          } ?>
+
+        </div>
+      </div>
+    </div><!-- /.row (main row) -->
+  </div>
+</section><!-- /.content -->
+</div><!-- /.content-wrapper -->

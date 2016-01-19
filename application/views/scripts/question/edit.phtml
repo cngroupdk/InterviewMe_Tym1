@@ -1,0 +1,59 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <?php echo $this->escape($this->title); ?>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="candidate"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="question">Question</a></li>
+      <li class="active"><?php echo $this->escape($this->title); ?></li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-xs-12">
+    
+        <div class="box box-primary">
+            
+          <div class="row"> 
+            <div class="col-md-6">
+            
+            <!--formular pro pridani nove otazky -->
+            <?php echo $this->questionForm ?>
+            
+            </div>
+          </div>
+            <div class="row">
+              <?php foreach ($this->questions as $q) { ?>
+              <div class="col-xs-12 mar10">
+                <h4><?php echo $q->order . ") " . $q->question->getobsah(); ?></h4>
+                <?php echo $q->question->getkomentar(); ?>
+              <ul style="list-style-type: upper-alpha">
+                <?php foreach ($q->options as $o) { ?>
+                <li>
+                  <?php if ($o->getspravnost())  { echo '<b style="color:green;">'; } ?>
+                  <?php echo $o->getobsah(); ?>
+                  <?php if ($o->getspravnost())  { echo "</b>"; } ?>
+                  <br>
+                  <?php echo $o->getkomentar(); ?>
+                </li>
+                <?php } ?>  
+              </ul>
+              </div>
+              <?php } ?>
+            </div>
+            
+            <!--button ktery vraci zpet na seznam testu (kdyz uz jsem dokoncil pridavani otazek) -->
+            <a href="<?php echo $this->url(array('controller' => 'test', 'action' => 'detail', 'id' => $this->testId), 'default', true); ?>"><button type="submit" class="btn btn-success mar10">Save test</button></a>
+
+        </div>
+      </div>
+    </div><!-- /.row (main row) -->
+
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->

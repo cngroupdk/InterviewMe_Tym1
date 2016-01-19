@@ -1,0 +1,101 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <?php echo $this->escape($this->title); ?>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="<?php echo $this->baseUrl() . "/"; ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active"><?php echo $this->escape($this->title); ?></li>
+    </ol>
+  </section>
+
+ <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <div class="box-header">
+            <a href="<?php echo $this->url(array('controller' => 'test', 'action' => 'edit')); ?>"><button type="submit" class="btn btn-success">Add new test</button></a>
+          </div><!-- /.box-header -->
+          
+          <!-- Test list HEADER-->
+          <?php if (count($this->tests) > 0) {?>
+           <div class="box-body">
+              <table id="tests-list" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Technology</th>
+                    <th>Difficulty</th>
+                    <th>Time alloted</th>
+                    <th>Questions</th>
+                    <th>Description</th>
+                    <th>Author</th>
+                    <th>Created</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody> 
+           <!-- Test list ITEM -->   
+           <?php foreach ($this->tests as $test) {  ?> 
+              <tr>
+                <td><?php echo $test->getnazev(); ?></td>
+                <td><?php echo $test->getTechnology()->getnazev(); ?></td>
+                <td><?php echo $test->getSeniority()->getnazev(); ?></td>
+                <td><?php echo $test->getpocet_minut(); ?> mins</td>
+                <td><?php echo $test->getpocet_otazek(); ?></td>
+                <td><?php echo $this->truncate($test->getpopis(), 66);?></td>
+                <td><?php echo $test->getCreator()->getFullName(); ?></td>
+                <td><?php $datum = new Zend_Date($test->getdatum_vytvoreni()); 
+                    echo $datum->get(Zend_Date::DATE_MEDIUM, 'cs_CZ')?></td>
+                <td>
+                  <a href="<?php echo $this->url(array('controller' => 'test', 'id' => $test->getid_test(), 'action' => 'detail')); ?>"><button type="button" class="btn btn-success btn-sm">Detail</button></a>  
+                </td>
+              </tr>
+              <?php }  //END foreach $test?> 
+              </tbody>
+            </table>
+            </div><!-- /.box-body --> 
+          <?php 
+          // end of table
+ 
+// haluz konstrukce, ktera vypise tenhle skript na konec souboru        
+$script = <<<'JS'
+$(document).ready(function() {
+$('#tests-list').DataTable( {
+responsive: true,
+columnDefs: [
+{ responsivePriority: 1, targets: 0 },
+{ responsivePriority: 2, targets: 1 },
+{ responsivePriority: 3, targets: 2 },
+{ responsivePriority: 5, targets: 3 },
+{ responsivePriority: 4, targets: 4 },
+{ responsivePriority: 6, targets: 5 },
+{ responsivePriority: 50, targets: 6 },
+{ responsivePriority: 51, targets: 7 },
+{ responsivePriority: 1, targets: -1 },
+{ bSortable: false, aTargets: -1 }
+] });
+} );
+JS;
+$this->InlineScript()->appendScript($script, $type = 'text/javascript');
+    
+          } else { ?>
+          
+          <!-- test list EMPTY --> 
+          <div class="box-body">
+            <div class="callout callout-info">
+                <h4>There are no tests to show</h4>
+                <p>Create new test to hide this annoying message :)</p>
+            </div>
+          </div>
+        <?php } //END test list EMPTY ?>
+          
+        </div><!-- /.box -->
+      </div>
+    </div><!-- /.row (main row) -->    
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->

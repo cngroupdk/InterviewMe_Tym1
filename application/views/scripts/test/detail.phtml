@@ -1,0 +1,103 @@
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <?php echo $this->escape($this->title); ?>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="candidate"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="test">Tests</a></li>
+      <li class="active"><?php echo $this->escape($this->title); ?></li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-md-4">
+        <div class="box box-primary min-420">
+          <div class="box-body box-profile">
+            <ul class="list-group list-group-unbordered">
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Name: </b></div>
+                <div class="flleft"><a><?php echo $this->test->getnazev(); ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Technology: </b></div>
+                <div class="flleft"><a><?php echo $this->technologyName; ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Seniority: </b></div>
+                <div class="flleft"><a><?php echo $this->seniorityName; ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Allotted time: </b></div>
+                <div class="flleft"><a><?php echo $this->test->getpocet_minut(); ?></a></div>
+              </li>
+              <li class="list-group-item min-62">
+                <div class="flleft min-100"><b>Number of</br> questions: </b></div>
+                <div class="flleft"><a><?php echo $this->test->getpocet_otazek(); ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Creator: </b></div>
+                <div class="flleft"><a><?php echo $this->creatorName; ?></a></div>
+              </li>
+              <li class="list-group-item min-42 border-b-n">
+                <div class="flleft min-100"><b>Description: </b></div>
+                <div class="flleft max-w-test"><a><?php echo $this->test->getpopis(); ?></a></div>
+              </li>
+            </ul>
+            <a href="<?php echo $this->url(array('controller' => 'test', 'id' => $this->test->getid_test(), 'action' => 'edit')); ?>"><button type="button" class="btn btn-success">Edit Test</button></a>
+          </div>
+          </div>
+        
+      </div>
+
+      <div class="col-md-8">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="row">
+              <?php  // Questions 
+              foreach ($this->questions as $q) { ?>
+              <div class="col-xs-12">
+                <div class="eva-q">
+                <?php $language = $q->question->getLanguage();
+                if ($language === null) {
+                    ?><span class="question-text own-qt"><?php echo $this->escape($q->question->getobsah());?></span> <?php
+                } else {
+                    ?><pre><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($q->question->getobsah()); ?></code></pre> <?php
+                } ?>
+                <?php echo $q->question->getkomentar(); ?>
+              <ul style="list-style-type: upper-alpha">
+                <?php //Options
+                foreach ($q->options as $o) { ?>
+                <li>
+                  <?php if ($o->getspravnost())  { echo '<span class="positive-positive">'; } ?>
+                  <?php 
+                    if ($language === null) {
+                        ?><span class="option-text"><?php echo $this->escape($o->getobsah());?></span> <?php
+                    } else {
+                        ?><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($o->getobsah()); ?></code> <?php
+                    } ?>
+                  <?php if ($o->getspravnost())  { echo "</span>"; } ?>
+                  <br>
+                  <?php echo $o->getkomentar(); ?>
+                </li>
+                <?php } ?>
+                <?php //pokud neni zadna moznost - tak se zobrazi textbox
+                if (count($q->options)==0) echo '<input type="text" value="Open question" disabled>'; ?>    
+              </ul>
+              </div>
+              </div>
+              <?php } ?>
+            </div>
+
+        </div>
+      </div>
+    </div><!-- /.row (main row) -->
+
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+

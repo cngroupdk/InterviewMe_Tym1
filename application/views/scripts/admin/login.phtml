@@ -1,0 +1,20 @@
+<div class="register-box-body">
+	<p class="login-box-msg">Please login</p>
+
+	<?php echo $this->loginform ?>
+        
+        
+        
+        
+        <?php 
+
+        if($this->messages != null){
+            foreach ($this->messages as $msg){
+                echo "</br>";
+                echo $msg;
+                echo "</br>";
+                echo "</br>";
+            }
+        } ?>
+
+</div><!-- /.form-box -->
